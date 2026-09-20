@@ -94,19 +94,22 @@
     header.className = "se-progress";
     header.setAttribute("data-se-header", "");
     header.innerHTML =
+      '<div class="se-progress-info">' +
+      '<span class="se-progress-label">Progression de la candidature</span>' +
       '<div class="se-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progression">' +
       '<span class="se-progress-count" data-se-count>0/0</span>' +
       '<span class="se-progress-bar"><span class="se-progress-fill"></span></span>' +
-      "</div>" +
+      "</div></div>" +
       '<div class="se-progress-actions">' +
-      '<label class="se-status">Statut ' +
+      '<div class="se-status-group">' +
+      '<label class="se-status">Statut' +
       '<select data-se-status aria-label="Statut de cette page">' +
-      '<option value="">—</option>' +
+      '<option value="">— Sélectionner —</option>' +
       '<option value="not-started">À faire</option>' +
       '<option value="in-progress">En cours</option>' +
       '<option value="ready">Prêt</option>' +
       '<option value="submitted">Déposé</option>' +
-      "</select></label>" +
+      "</select></label></div>" +
       '<button type="button" class="se-reset" data-se-reset aria-label="Réinitialiser la progression">Réinitialiser</button>' +
       "</div>";
     title.parentNode.insertBefore(header, title.nextSibling);
@@ -266,99 +269,79 @@
   function renderDashboard() {
     var mount = document.querySelector("[data-se-dashboard]");
     if (!mount) return;
-    mount.innerHTML = '<p class="se-dash-loading">Chargement…</p>';
+    mount.innerHTML = '<div class="se-loader">Chargement de votre tableau de bord…</div>';
 
     fetchData()
       .then(function (data) {
         var html = "";
         var stats = { done: 0, total: 0 };
+
+        // Prepare stats first
         data.categories.forEach(function (cat) {
-          var pages = (cat.pages || []).map(function (p) {
-            var total = (p.tasks || []).length;
-            var done = doneCountFor(p.tasks || []);
-            var pct = total ? Math.round((done / total) * 100) : 0;
-            stats.done += done;
-            stats.total += total;
-            return {
-              p: p,
-              total: total,
-              done: done,
-              pct: pct
-            };
+          (cat.pages || []).forEach(function (p) {
+            stats.total += (p.tasks || []).length;
+            stats.done += doneCountFor(p.tasks || []);
           });
-
-          var rows = pages
-            .map(function (r) {
-              var st = pageStatus(stemFromUrl(r.p.url));
-              var status = st || (r.pct === 100 && r.total > 0 ? "submitted" : "");
-              var pill = status
-                ? '<span class="se-pill se-pill-' + esc(status) + '">' +
-                  esc(statusLabel(status)) +
-                  "</span>"
-                : "";
-              return (
-                '<li class="se-dash-page">' +
-                '<a class="se-dash-link" href="' +
-                CFG.baseUrl +
-                "/" +
-                esc(r.p.url) +
-                '">' +
-                esc(r.p.title) +
-                "</a>" +
-                '<span class="se-dash-meta">' +
-                r.done +
-                "/" +
-                r.total +
-                "</span>" +
-                '<div class="se-dash-bar" role="progressbar" aria-valuemin="0"' +
-                ' aria-valuemax="100" aria-valuenow="' +
-                r.pct +
-                '" aria-label="Progression de ' +
-                esc(r.p.title) +
-                '">' +
-                '<span class="se-dash-fill" style="width:' +
-                r.pct +
-                '%"></span>' +
-                "</div>" +
-                pill +
-                "</li>"
-              );
-            })
-            .join("");
-
-          html +=
-            '<section class="se-dash-cat">' +
-            "<h2>" +
-            esc(cat.name) +
-            "</h2>" +
-            '<ul class="se-dash-pages">' +
-            rows +
-            "</ul>" +
-            "</section>";
         });
 
-        var overall = stats.total
-          ? Math.round((stats.done / stats.total) * 100)
-          : 0;
+        var overall = stats.total ? Math.round((stats.done / stats.total) * 100) : 0;
 
-        mount.innerHTML =
+        // Overall progress hero
+        html +=
           '<div class="se-dash-overall" role="progressbar" aria-valuemin="0"' +
           ' aria-valuemax="100" aria-valuenow="' +
           overall +
           '" aria-label="Progression globale">' +
+          '<div class="se-dash-overall-content">' +
           '<span class="se-dash-overall-label">Progression globale</span>' +
-          '<span class="se-dash-count">' +
-          stats.done +
-          "/" +
-          stats.total +
-          "</span>" +
+          '<span class="se-dash-count">' + stats.done + ' <span class="se-dash-count-sep">/</span> ' + stats.total + ' <small>tâches</small></span>' +
+          '</div>' +
           '<div class="se-dash-bar se-dash-bar-lg">' +
-          '<span class="se-dash-fill" style="width:' +
-          overall +
-          '%"></span>' +
-          "</div>" +
-          "</div>" +
-          html;
+          '<span class="se-dash-fill" style="width:' + overall + '%"></span>' +
+          '</div>' +
+          '<div class="se-dash-pct">' + overall + '%</div>' +
+          '</div>';
+
+        data.categories.forEach(function (cat) {
+          var rows = (cat.pages || []).map(function (p) {
+            var total = (p.tasks || []).length;
+            var done = doneCountFor(p.tasks || []);
+            var pct = total ? Math.round((done / total) * 100) : 0;
+            var st = pageStatus(stemFromUrl(p.url));
+            var status = st || (pct === 100 && total > 0 ? "submitted" : "");
+
+            var pill = status
+              ? '<span class="se-pill se-pill-' + esc(status) + '">' +
+                esc(statusLabel(status)) +
+                "</span>"
+              : '<span class="se-pill se-pill-none">Aucun statut</span>';
+
+            return (
+              '<li class="se-dash-page">' +
+              '<div class="se-dash-page-header">' +
+              pill +
+              '</div>' +
+              '<a class="se-dash-link" href="' + CFG.baseUrl + "/" + esc(p.url) + '">' +
+              esc(p.title) +
+              "</a>" +
+              '<div class="se-dash-page-footer">' +
+              '<div class="se-dash-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + pct + '">' +
+              '<span class="se-dash-fill" style="width:' + pct + '%"></span>' +
+              '</div>' +
+              '<span class="se-dash-meta">' + done + ' / ' + total + '</span>' +
+              '</div>' +
+              '</li>'
+            );
+          }).join("");
+
+          html +=
+            '<section class="se-dash-cat">' +
+            "<h2>" + esc(cat.name) + "</h2>" +
+            '<ul class="se-dash-pages">' + rows + "</ul>" +
+            "</section>";
+        });
+
+        mount.innerHTML = html;
       })
       .catch(function () {
         mount.innerHTML =

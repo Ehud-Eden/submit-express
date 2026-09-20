@@ -22,14 +22,14 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
+      primary: cyan
       accent: indigo
       toggle:
         icon: material/brightness-7
         name: Passer au mode sombre
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
+      primary: purple
       accent: indigo
       toggle:
         icon: material/brightness-4

@@ -21,8 +21,8 @@ theme:
     - announce.dismiss
   palette:
     scheme: slate
-    primary: orange
-    accent: orange
+    primary: cyan
+    accent: cyan
   font:
     text: Roboto
     code: Roboto Mono

@@ -1,23 +1,14 @@
 :root {
   --se-primary: #00bcd4; /* Cyan */
   --se-primary-dark: #0097a7;
-  --se-primary-light: #b2ebf2;
-  --se-bg: #f5f7f9;
-  --se-card-bg: #ffffff;
-  --se-text: #2c3e50;
-  --se-text-light: #7f8c8d;
-  --se-border: #dcdde1;
-  --se-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --se-radius: 8px;
-}
-
-[data-md-color-scheme="slate"] {
+  --se-primary-light: rgba(0, 188, 212, 0.2);
   --se-bg: #1e2128;
   --se-card-bg: #2d3139;
   --se-text: #e0e0e0;
   --se-text-light: #a0a0a0;
   --se-border: #444;
-  --se-primary-light: rgba(0, 188, 212, 0.2);
+  --se-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --se-radius: 8px;
 }
 
 /* Base enhancements */
@@ -219,29 +210,30 @@ body {
   border-radius: var(--se-radius);
   overflow: hidden;
   border: 1px solid var(--se-border);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   display: table;
   width: 100%;
+  background-color: var(--se-card-bg);
 }
 
 .md-typeset table:not([class]) th {
-  background-color: #f8f9fa;
+  background-color: #3d424d;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.7rem;
   letter-spacing: 0.05em;
-  color: var(--se-text-light);
+  color: var(--se-text);
   padding: 0.8rem 1rem;
 }
 
 .md-typeset table:not([class]) td {
   padding: 0.8rem 1rem;
   border-top: 1px solid var(--se-border);
+  color: var(--se-text);
 }
 
 /* Status Badges in Tables */
 .md-typeset td:contains("REQUIS") {
-
 }
 
 /* Task Lists */
@@ -254,6 +246,7 @@ body {
   background: var(--se-card-bg);
   transition: all 0.2s;
   list-style-type: none !important;
+  color: var(--se-text);
 }
 
 .task-list-item:hover {

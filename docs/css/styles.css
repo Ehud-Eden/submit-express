@@ -1,7 +1,7 @@
 :root {
-  --se-primary: #3f51b5;
-  --se-primary-dark: #303f9f;
-  --se-primary-light: #c5cae9;
+  --se-primary: #00bcd4; /* Cyan */
+  --se-primary-dark: #0097a7;
+  --se-primary-light: #b2ebf2;
   --se-bg: #f5f7f9;
   --se-card-bg: #ffffff;
   --se-text: #2c3e50;
@@ -9,6 +9,15 @@
   --se-border: #dcdde1;
   --se-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --se-radius: 8px;
+}
+
+[data-md-color-scheme="slate"] {
+  --se-bg: #1e2128;
+  --se-card-bg: #2d3139;
+  --se-text: #e0e0e0;
+  --se-text-light: #a0a0a0;
+  --se-border: #444;
+  --se-primary-light: rgba(0, 188, 212, 0.2);
 }
 
 /* Base enhancements */
@@ -480,6 +489,15 @@ a.se-ext::after {
   content: " ↗";
   font-size: 0.75em;
   opacity: 0.7;
+}
+
+/* Dark mode table and task list overrides */
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background-color: #3d424d;
+}
+
+[data-md-color-scheme="slate"] .task-list-item {
+  background: var(--se-card-bg);
 }
 
 @media (prefers-reduced-motion: reduce) {

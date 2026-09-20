@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block config %}
+  {{ super() }}
+  <script>
+    window.SE_CONFIG = {
+      baseUrl: "{{ base_url }}",
+      dataUrl: "{{ base_url }}/assets/data/app-data.json"
+    };
+  </script>
+{% endblock %}

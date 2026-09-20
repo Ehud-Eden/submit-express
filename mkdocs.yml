@@ -1,0 +1,104 @@
+site_name: Submit Express — Suivi de candidatures 2027
+site_description: Tableau de bord personnel de suivi des candidatures undergraduate
+  (universités, bourses, dispositifs de financement) pour la rentrée 2027.
+site_url: https://ehud-eden.github.io/submit-express/
+repo_url: https://github.com/Ehud-Eden/submit-express
+repo_name: submit-express
+
+theme:
+  name: material
+  language: fr
+  custom_dir: overrides
+  features:
+    - navigation.top
+    - navigation.footer
+    - navigation.sections
+    - navigation.expand
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - announce.dismiss
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Passer au mode sombre
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Passer au mode clair
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: material/send-check
+    repo: fontawesome/brands/github
+
+plugins:
+  - search:
+      lang:
+        - fr
+        - en
+
+extra_css:
+  - css/styles.css
+
+extra_javascript:
+  - js/app.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+hooks:
+  - hooks/progress.py
+
+nav:
+  - Accueil: index.md
+  - Tableau de bord: dashboard.md
+  - Universités — États-Unis:
+      - Duke University: 03-duke-university.md
+      - Berea College: 04-berea-college.md
+      - Bowdoin College: 05-bowdoin-college.md
+      - Amherst College: 06-amherst-college.md
+      - Caltech: 07-caltech.md
+      - Columbia University: 08-columbia-university.md
+      - Soka University of America: 09-soka-university-of-america.md
+      - University of Chicago: 10-university-of-chicago.md
+      - Washington University in St. Louis (WashU): 11-washu.md
+      - Yale University: 12-yale.md
+  - Universités — Canada:
+      - University of Toronto: 01-university-of-toronto.md
+      - University of British Columbia (UBC): 13-ubc.md
+  - Universités — Afrique:
+      - Mastercard Foundation — Ashesi University: 14-mastercard-ashesi.md
+      - African Leadership University (ALU): 20-alu-full-ride.md
+  - Bourses internationales:
+      - Türkiye Scholarships: 02-turkiye-scholarships.md
+      - Chinese Government Scholarship (CSC): 19-chinese-government-scholarship.md
+  - Financement & mécanismes d'aide:
+      - EducationUSA Opportunity Funds: 15-educationusa-opportunity-funds.md
+      - Fee Waivers: 16-fee-waivers.md
+      - NYU Abu Dhabi — Application Fee Waiver: 17-nyuad-fee-waiver.md
+      - WashU — CSS Profile vs Formulaire institutionnel: 18-washu-financial-aid-forms.md

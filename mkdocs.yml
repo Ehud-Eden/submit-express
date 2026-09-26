@@ -42,6 +42,16 @@ extra_css:
 extra_javascript:
   - js/app.js
 
+# Google Analytics 4 (gtag.js), injected by the Material theme in <head>.
+# The Measurement ID is read from the GA4_MEASUREMENT_ID environment variable
+# when it is set, and falls back to the value below (GA4 public identifier, not
+# a secret). Set GA4_MEASUREMENT_ID to an empty value to build without
+# analytics: no tag, no third-party request.
+extra:
+  analytics:
+    provider: google
+    property: !ENV [GA4_MEASUREMENT_ID, 'G-65LP87WNJ9']
+
 markdown_extensions:
   - admonition
   - attr_list

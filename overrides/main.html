@@ -9,3 +9,12 @@
     };
   </script>
 {% endblock %}
+
+{#- Skip the GA4 tag entirely when no Measurement ID is configured, so no
+    request is made and no tracking code runs without consent. -#}
+{% block analytics %}
+  {%- set ga_id = (config.extra.analytics.property | trim) if config.extra.analytics else "" -%}
+  {%- if ga_id.startswith("G-") -%}
+    {{- super() -}}
+  {%- endif -%}
+{% endblock %}
